@@ -1,0 +1,18 @@
+{
+    "id": "finalize",
+    "name": "Finalize Image",
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/common-utils",
+        "ghcr.io/devcontainers/features/node",
+        "ghcr.io/devcontainers/features/python",
+        "ghcr.io/devcontainers/features/git",
+        "ghcr.io/devcontainers/features/go",
+        "ghcr.io/devcontainers/features/github-cli",
+        "ghcr.io/devcontainers/features/docker-outside-of-docker",
+        "ghcr.io/devcontainers/features/kubectl-helm-minikube",
+        "ghcr.io/devcontainers/features/terraform",
+        "ghcr.io/devcontainers/features/rust",
+        "ghcr.io/devcontainers/features/aws-cli",
+        "ghcr.io/devcontainers/features/azure-cli"
+    ]
+}

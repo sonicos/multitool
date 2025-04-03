@@ -1,0 +1,69 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": "true",
+      "username": "developer",
+      "userUid": "1000",
+      "userGid": "1000",
+      "upgradePackages": "true"
+    },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/node": {
+      "version": "22.14.0"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.13.2"
+    },
+    "ghcr.io/devcontainers/features/go:1": {
+      "version": "1.24.1"
+    },
+    "ghcr.io/devcontainers/features/rust:1": {
+      "version": "1.84.1"
+    },
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "version": "28.0.4"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "2.69.0"
+    },
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+      "version": "1.32"
+    },
+    "ghcr.io/devcontainers/features/aws-cli:1": {
+      "version": "2.25.7"
+    },
+    "ghcr.io/devcontainers/features/azure-cli:1": {
+      "version": "2.70.0"
+    },
+    "ghcr.io/devcontainers/features/terraform:1": {
+      "installTFsec": "true",
+      "installSentinel": "true",
+      "installTerraformDocs": "true"
+    },
+  },
+  "overrideFeatureInstallOrder": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/git",
+    "ghcr.io/devcontainers/features/node",
+    "ghcr.io/devcontainers/features/python",
+    "ghcr.io/devcontainers/features/go",
+    "ghcr.io/devcontainers/features/github-cli",
+    "ghcr.io/devcontainers/features/docker-outside-of-docker",
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube",
+    "ghcr.io/devcontainers/features/terraform",
+    "ghcr.io/devcontainers/features/rust",
+    "ghcr.io/devcontainers/features/aws-cli",
+    "ghcr.io/devcontainers/features/azure-cli"
+  ],
+  "remoteEnv": {
+    "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+  },
+
+  "remoteUser": "developer",
+  "containerUser": "developer"
+
+}
