@@ -61,8 +61,3 @@ pip3 install commentjson
 # trufflehog - https://hub.docker.com/r/trufflesecurity/trufflehog
 
 # -- additional setup
-
-# profile scripts
-mkdir -p /opt/profile.d
-cp aliases.sh /opt/profile.d
-chmod -R a+r /opt/profile.d

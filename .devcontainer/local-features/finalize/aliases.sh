@@ -1,1 +1,0 @@
-alias zap='docker run -v ${LOCAL_WORKSPACE_FOLDER}:/zap/wrk --rm -t zaproxy/zap-stable:2.16.1 zap.sh -cmd -autorun /zap/wrk/zap.yaml'
