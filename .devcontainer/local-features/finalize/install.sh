@@ -21,12 +21,6 @@ apt-get install pylint
 # # tfsec
 go install github.com/aquasecurity/tfsec/cmd/tfsec@latest
 
-# terraform-compliance
-pip install terraform-compliance[faster_parsing]
-
-# precommit
-pip install pre-commit
-
 # # sqlmap
 git clone --depth 1 --branch 1.9 https://github.com/sqlmapproject/sqlmap.git /opt/sqlmap
 # #TODO: alias for sqlmap
@@ -52,14 +46,15 @@ curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/
 # markdownlint
 npm install -g markdownlint
 
-pip3 install commentjson
-
 # act
 cd /usr/local
 curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
 
-# common developer needs
-apt install -y postgresql-client postgresql-client-common neovim
+# terraform-compliance
+pip install terraform-compliance[faster_parsing]
+
+# precommit
+pip install pre-commit
 
 # -- docker aliased --
 # gitleaks
@@ -81,3 +76,7 @@ go clean
 go clean -cache
 go clean -testcache
 go clean -modcache
+
+#cleanup apt
+apt-get clean
+rm -rf /var/lib/apt/lists/*
