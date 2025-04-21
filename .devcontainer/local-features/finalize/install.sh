@@ -18,9 +18,6 @@ apt-get install shellcheck
 # pylint
 apt-get install pylint
 
-# checkov
-pip3 install checkov
-
 # # tfsec
 go install github.com/aquasecurity/tfsec/cmd/tfsec@latest
 
@@ -40,11 +37,29 @@ curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh 
 # trufflehog
 curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh -s -- -v -b /usr/local/bin
 
+# dockle
+DOCKLE_VERSION=$(
+ curl --silent "https://api.github.com/repos/goodwithtech/dockle/releases/latest" | \
+ grep '"tag_name":' | \
+ sed -E 's/.*"v([^"]+)".*/\1/' \
+)
+DOCKLE_ARCH="unknown"; case "$(uname -m)" in aarch64|arm64) DOCKLE_ARCH="ARM64" ;; x86_64) DOCKLE_ARCH="64bit" ;; esac;
+curl -L -o /tmp/dockle.deb https://github.com/goodwithtech/dockle/releases/download/v${DOCKLE_VERSION}/dockle_${DOCKLE_VERSION}_Linux-${DOCKLE_ARCH}.deb
+sudo dpkg -i /tmp/dockle.deb && rm /tmp/dockle.deb
+
+curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+
 # markdownlint
 npm install -g markdownlint
 
 pip3 install commentjson
 
+# act
+cd /usr/local
+curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
+
+# common developer needs
+apt install -y postgresql-client postgresql-client-common neovim
 
 # -- docker aliased --
 # gitleaks
@@ -61,3 +76,8 @@ pip3 install commentjson
 # trufflehog - https://hub.docker.com/r/trufflesecurity/trufflehog
 
 # -- additional setup
+# Cleanup go
+go clean
+go clean -cache
+go clean -testcache
+go clean -modcache
