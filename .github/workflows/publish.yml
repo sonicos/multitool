@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v*.*.*"
+
 jobs:
   devcontainer-build-and-push:
     runs-on: ubuntu-latest
@@ -11,6 +12,7 @@ jobs:
       contents: read
       id-token: write
       packages: write
+      actions: read
     steps:
       - name: Checkout
         id: checkout
@@ -43,10 +45,12 @@ jobs:
           npm install -g @devcontainers/cli
           devcontainer build \
             --workspace-folder . \
-            --image-name ghcr.io/${{ github.repository }}/multitool-devcontainer:${{ steps.meta.outputs.tag }} \
-            --image-name ghcr.io/${{ github.repository }}/multitool-devcontainer:latest \
+            --image-name ghcr.io/${{ github.repository_owner }}/multitool-devcontainer:${{ steps.meta.outputs.tag }} \
+            --image-name ghcr.io/${{ github.repository_owner }}/multitool-devcontainer:latest \
             --platform linux/amd64,linux/arm64 \
-            --push
+            --push \
+            --cache-from type=gha \
+            --cache-to type=gha,mode=max
         env:
           # see: https://github.com/devcontainers/ci/issues/191#issuecomment-1603857155
           BUILDX_NO_DEFAULT_ATTESTATIONS: true
