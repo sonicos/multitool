@@ -54,7 +54,8 @@ jobs:
 
   build-arm64:
     name: Build linux/arm64
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
+    # M1 mac doesnt support docker. We can fix this later
     needs: prepare
     permissions:
       contents: read
@@ -77,6 +78,7 @@ jobs:
           imageName: ${{ needs.prepare.outputs.image_name_full }}
           cacheFrom: ${{ needs.prepare.outputs.image_name_full }}
           imageTag: ${{ needs.prepare.outputs.version_tag }}-arm64
+          platform: "linux/arm64"
           push: always
   
   create-manifest:
