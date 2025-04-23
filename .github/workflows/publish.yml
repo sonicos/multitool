@@ -65,7 +65,7 @@ jobs:
             --platform linux/amd64 \
             --push \
             --cache-from type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-amd64 \
-            --cache-to type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-amd64,mode=max
+            --cache-to type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-amd64,mode=max \
             --label "org.opencontainers.image.source=${{ needs.prepare.outputs.repo_url }}" \
             --label "org.opencontainers.image.revision=${{ github.sha }}" \
             --label "org.opencontainers.image.version=${{ github.ref_name }}" \
@@ -111,7 +111,7 @@ jobs:
             --platform linux/arm64 \
             --push \
             --cache-from type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-arm64 \
-            --cache-to type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-arm64,mode=max
+            --cache-to type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-arm64,mode=max \
             --label "org.opencontainers.image.source=${{ needs.prepare.outputs.repo_url }}" \
             --label "org.opencontainers.image.revision=${{ github.sha }}" \
             --label "org.opencontainers.image.version=${{ github.ref_name }}" \
