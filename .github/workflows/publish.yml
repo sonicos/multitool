@@ -44,14 +44,29 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push linux/amd64
-        uses: devcontainers/ci@v0.3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
         with:
-          imageName: ${{ needs.prepare.outputs.image_name_full }}
-          cacheFrom: ${{ needs.prepare.outputs.image_name_full }}
-          imageTag: ${{ needs.prepare.outputs.version_tag }}-amd64
-          push: always
+          platforms: all
 
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push amd64
+        run: |
+          npm install -g @devcontainers/cli
+          devcontainer build \
+            --workspace-folder . \
+            --image-name ${{ needs.prepare.outputs.image_name_full }}:${{ needs.prepare.outputs.version_tag }}-amd64 \
+            --platform linux/amd64 \
+            --push \
+            --cache-from type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-amd64 \
+            --cache-to type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-amd64,mode=max
+        env:
+          # see: https://github.com/devcontainers/ci/issues/191#issuecomment-1603857155
+          BUILDX_NO_DEFAULT_ATTESTATIONS: true
+          
   build-arm64:
     name: Build linux/arm64
     runs-on: ubuntu-latest
@@ -72,14 +87,28 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push linux/arm64 using devcontainers/ci
-        uses: devcontainers/ci@v0.3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
         with:
-          imageName: ${{ needs.prepare.outputs.image_name_full }}
-          cacheFrom: ${{ needs.prepare.outputs.image_name_full }}
-          imageTag: ${{ needs.prepare.outputs.version_tag }}-arm64
-          platform: "linux/arm64"
-          push: always
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push arm64
+        run: |
+          npm install -g @devcontainers/cli
+          devcontainer build \
+            --workspace-folder . \
+            --image-name ${{ needs.prepare.outputs.image_name_full }}:${{ needs.prepare.outputs.version_tag }}-arm64 \
+            --platform linux/arm64 \
+            --push \
+            --cache-from type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-arm64 \
+            --cache-to type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-arm64,mode=max
+        env:
+          # see: https://github.com/devcontainers/ci/issues/191#issuecomment-1603857155
+          BUILDX_NO_DEFAULT_ATTESTATIONS: true
   
   create-manifest:
     name: Create Multi-Arch Manifest
