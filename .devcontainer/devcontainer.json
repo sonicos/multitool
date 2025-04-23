@@ -1,7 +1,12 @@
 {
   "build": {
     "dockerfile": "Dockerfile",
-    "context": "."
+    "context": ".",
+    "options": [
+      "--label", "org.opencontainers.image.source=${localEnv:GITHUB_SERVER_URL}/${localEnv:GITHUB_REPOSITORY}",
+      "--label", "org.opencontainers.image.revision=${localEnv:GITHUB_SHA}",
+      "--label", "org.opencontainers.image.version=${localEnv:GITHUB_REF_NAME}"
+    ]
   },
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
