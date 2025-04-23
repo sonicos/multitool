@@ -15,6 +15,7 @@ jobs:
     outputs:
       version_tag: ${{ steps.prep.outputs.VERSION_TAG }}
       image_name_full: ${{ steps.prep.outputs.IMAGE_NAME_FULL }}
+      repo_url: ${{ steps.prep.outputs.REPO_URL }}
     steps:
       - name: Prepare Tags and Image Names
         id: prep
@@ -22,8 +23,10 @@ jobs:
           TAG_NAME="${{ github.ref_name }}"
           VERSION_TAG="${TAG_NAME#v}"
           IMAGE_NAME_FULL="${{ env.REGISTRY }}/${{ env.IMAGE_NAME_BASE }}"
+          REPO_URL="${{ github.server_url }}/${{ github.repository }}"
           echo "VERSION_TAG=${VERSION_TAG}" >> $GITHUB_OUTPUT
           echo "IMAGE_NAME_FULL=${IMAGE_NAME_FULL}" >> $GITHUB_OUTPUT
+          echo "REPO_URL=${REPO_URL}" >> $GITHUB_OUTPUT
   build-amd64:
     name: Build linux/amd64
     runs-on: ubuntu-latest
@@ -63,6 +66,10 @@ jobs:
             --push \
             --cache-from type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-amd64 \
             --cache-to type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-amd64,mode=max
+            --label "org.opencontainers.image.source=${{ needs.prepare.outputs.repo_url }}" \
+            --label "org.opencontainers.image.revision=${{ github.sha }}" \
+            --label "org.opencontainers.image.version=${{ github.ref_name }}" \
+            --label "org.opencontainers.image.created=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
         env:
           # see: https://github.com/devcontainers/ci/issues/191#issuecomment-1603857155
           BUILDX_NO_DEFAULT_ATTESTATIONS: true
@@ -105,6 +112,10 @@ jobs:
             --push \
             --cache-from type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-arm64 \
             --cache-to type=registry,ref=${{ needs.prepare.outputs.image_name_full }}:cache-arm64,mode=max
+            --label "org.opencontainers.image.source=${{ needs.prepare.outputs.repo_url }}" \
+            --label "org.opencontainers.image.revision=${{ github.sha }}" \
+            --label "org.opencontainers.image.version=${{ github.ref_name }}" \
+            --label "org.opencontainers.image.created=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
         env:
           # see: https://github.com/devcontainers/ci/issues/191#issuecomment-1603857155
           BUILDX_NO_DEFAULT_ATTESTATIONS: true
