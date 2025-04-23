@@ -69,8 +69,7 @@ jobs:
           
   build-arm64:
     name: Build linux/arm64
-    runs-on: ubuntu-latest
-    # M1 mac doesnt support docker. We can fix this later
+    runs-on: ubuntu-24.04-arm
     needs: prepare
     permissions:
       contents: read
